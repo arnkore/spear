@@ -3,8 +3,8 @@ package spear.plans.logical.analysis
 import spear._
 import spear.exceptions.IllegalAggregationException
 import spear.expressions._
-import spear.expressions.aggregates.{AggregateFunction, DistinctAggregateFunction}
 import spear.expressions.InternalAlias._
+import spear.expressions.aggregates.{AggregateFunction, DistinctAggregateFunction}
 import spear.expressions.windows.WindowFunction
 import spear.plans.logical._
 import spear.plans.logical.analysis.AggregationAnalysis._

@@ -21,11 +21,49 @@ Currently Spear only works with local Scala collections.
 
 # Build
 
+## Quick Start
+
 Building Spear is as easy as:
 
+```bash
+# Using Make (recommended)
+make build
+
+# Or using sbt directly
+sbt package
 ```
-$ ./build/sbt package
+
+## Available Build Commands
+
+The project includes several convenient build commands via Make:
+
+```bash
+make help      # Show all available commands
+make clean     # Clean previous build artifacts
+make compile   # Compile source code
+make test      # Run all tests
+make style     # Run scalastyle code style check
+make package   # Create JAR package
+make build     # Run complete build (clean + compile + test + style + package)
 ```
+
+## Code Style
+
+The project uses Scalastyle for code style checking. Run style checks with:
+
+```bash
+make style
+# or
+sbt scalastyle
+```
+
+## CI/CD Integration
+
+The project includes GitHub Actions workflow for continuous integration, which runs:
+- Code style checks (scalastyle)
+- Compilation
+- Tests
+- Packaging
 
 # Run the REPL
 

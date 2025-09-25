@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        java-version: [11]
+        scala-version: [2.11.12]
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK ${{ matrix.java-version }}
+      uses: actions/setup-java@v3
+      with:
+        java-version: ${{ matrix.java-version }}
+        distribution: 'temurin'
+    
+    - name: Cache SBT dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.sbt
+          ~/.ivy2/cache
+          ~/.coursier/cache
+        key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}-${{ hashFiles('**/project/build.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-
+    
+    - name: Run Scalastyle (Code Style Check)
+      run: sbt scalastyle
+    
+    - name: Compile
+      run: sbt compile
+    
+    - name: Run Tests
+      run: sbt test
+    
+    - name: Package
+      run: sbt package

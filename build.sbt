@@ -117,7 +117,9 @@ lazy val commonSettings = {
   }
 
   val taskSettings = Seq(
-    // Note: scalastyle integration removed for sbt 1.x compatibility
+    // Note: scalastyle automatic integration has syntax issues in sbt 1.x
+    // Scalastyle plugin is available and can be run manually with: sbt scalastyle
+    // The plugin works correctly but automatic integration syntax differs from sbt 0.13
   )
 
   Seq(

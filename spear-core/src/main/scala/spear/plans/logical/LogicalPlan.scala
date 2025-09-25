@@ -12,10 +12,10 @@ import spear.expressions.NamedExpression.newExpressionID
 import spear.expressions.functions._
 import spear.expressions.typecheck.Foldable
 import spear.expressions.windows.{BasicWindowSpec, WindowSpec}
-import spear.plans.logical.patterns.Unresolved
 import spear.plans.QueryPlan
 import spear.plans.logical.Window._
 import spear.plans.logical.annotations.Explain
+import spear.plans.logical.patterns.Unresolved
 import spear.reflection.fieldSpecFor
 import spear.trees.TreeNode
 import spear.types.{DataType, IntType, StructType}
