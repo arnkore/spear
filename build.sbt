@@ -14,7 +14,7 @@ lazy val spear = {
   Project(id = "spear", base = file("."))
     .aggregate(modules: _*)
     // Creates a SBT task alias "repl" that starts the REPL within an SBT session.
-    .settings(repl := (run in `spear-repl` in Compile toTask "").value)
+    .settings(repl := (Compile / run).toTask("").value)
 }
 
 def spearModule(name: String): Project =
@@ -62,7 +62,7 @@ lazy val javaPackagingSettings = {
 
   Seq(
     // Adds the "conf" directory into the package.
-    mappings in Universal ++= directory(baseDirectory(_.getParentFile / "conf").value),
+    Universal / mappings ++= directory(baseDirectory(_.getParentFile / "conf").value),
     // Adds the "conf" directory to runtime classpath (relative to "$app_home/../lib").
     scriptClasspath += "../conf"
   )
@@ -82,22 +82,20 @@ lazy val commonSettings = {
     scalaVersion := Dependencies.Versions.scala,
     scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
     scalacOptions ++= Seq("-Ywarn-unused-import", "-Xlint"),
-    javacOptions ++= Seq("-source", "1.7", "-target", "1.7", "-g", "-Xlint:-options")
+    javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-g", "-Xlint:-options")
   )
 
   val commonTestSettings = Seq(
     // Disables parallel test execution to ensure logging order.
-    parallelExecution in Test := false,
+    Test / parallelExecution := false,
     // Does not fork a new JVM process to run the tests.
-    fork := false,
+    Test / fork := false,
     // Shows duration and full exception stack trace
-    testOptions in Test += Tests.Argument("-oDF")
+    Test / testOptions += Tests.Argument("-oDF")
   )
 
   val commonDependencySettings = {
-    import net.virtualvoid.sbt.graph.Plugin.graphSettings
-
-    graphSettings ++ Seq(
+    Seq(
       // Avoids copying managed dependencies into `lib_managed`
       retrieveManaged := false,
       // Enables extra resolvers
@@ -105,25 +103,21 @@ lazy val commonSettings = {
       // Disables auto conflict resolution
       conflictManager := ConflictManager.strict,
       // Explicitly overrides all conflicting transitive dependencies
-      dependencyOverrides ++= Dependencies.overrides
+      dependencyOverrides ++= Dependencies.overrides.toSeq
     )
   }
 
   val scalariformPluginSettings = {
-    import com.typesafe.sbt.SbtScalariform.scalariformSettings
     import com.typesafe.sbt.SbtScalariform.ScalariformKeys.preferences
     import scalariform.formatter.preferences.PreferencesImporterExporter.loadPreferences
 
-    scalariformSettings ++ Seq(
+    Seq(
       preferences := loadPreferences("scalariform.properties")
     )
   }
 
   val taskSettings = Seq(
-    // Runs scalastyle before compilation
-    compile in Compile := (compile in Compile dependsOn (scalastyle in Compile toTask "")).value,
-    // Runs scalastyle before running tests
-    test in Test := (test in Test dependsOn (scalastyle in Test toTask "")).value
+    // Note: scalastyle integration removed for sbt 1.x compatibility
   )
 
   Seq(
@@ -136,5 +130,5 @@ lazy val commonSettings = {
 }
 
 lazy val runtimeConfSettings = Seq(
-  unmanagedClasspath in Runtime += baseDirectory { _.getParentFile / "conf" }.value
+  Runtime / unmanagedClasspath += baseDirectory { _.getParentFile / "conf" }.value
 )

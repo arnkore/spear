@@ -38,7 +38,7 @@ package object utils {
     def oneLine(joiner: String): String = oneLine('|', joiner)
 
     def oneLine(marginChar: Char, joiner: String): String =
-      ((string stripMargin marginChar).lines mkString joiner).trim
+      ((string stripMargin marginChar).lines.toArray mkString joiner).trim
   }
 
   def trySequence[T](seq: Seq[Try[T]]): Try[Seq[T]] = seq match {

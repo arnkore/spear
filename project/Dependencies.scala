@@ -3,7 +3,7 @@ import sbt._
 object Dependencies {
   val extraResolvers = Seq(
     Resolver.mavenLocal,
-    "Twitter Maven" at "http://maven.twttr.com"
+    "Twitter Maven" at "https://maven.twttr.com"
   )
 
   object Versions {
@@ -74,5 +74,7 @@ object Dependencies {
 
   val logging: Seq[ModuleID] = log4j ++ slf4j
 
-  val overrides: Set[ModuleID] = (log4j ++ scala ++ slf4j ++ sourcecode).toSet
+  val overrides: Set[ModuleID] = (log4j ++ scala ++ slf4j ++ sourcecode ++ Seq(
+    "com.lihaoyi" %% "fansi" % "0.2.3"
+  )).toSet
 }
