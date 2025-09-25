@@ -10,8 +10,8 @@ Quick start
 
 Building Spear is as easy as::
 
-  $ ./build/sbt package
+  $ sbt package
 
 Run the REPL::
 
-  $ ./build/sbt repl
+  $ sbt spear-repl/run

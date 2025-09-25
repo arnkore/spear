@@ -1,5 +1,4 @@
 .idea/
-build/sbt-launch-*.jar
 project/project/
 project/target/
 target/

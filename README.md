@@ -70,7 +70,7 @@ The project includes GitHub Actions workflow for continuous integration, which r
 Spear has an Ammonite-based REPL for interactive experiments. To start it:
 
 ```
-$ ./build/sbt spear-repl/run
+$ sbt spear-repl/run
 ```
 
 Let's create a simple DataFrame of numbers:
